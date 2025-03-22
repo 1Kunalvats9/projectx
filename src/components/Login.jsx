@@ -14,21 +14,19 @@ const Login = () => {
         <form className='flex flex-col gap-3' onSubmit={async (e) => {
           e.preventDefault()
           try {
-            const res = await fetch("api/login", {
+            const res = await fetch("/api/login", {
               method: "POST",
               body: JSON.stringify({ email, password }),
               headers: { "Content-Type": "application/json" },
             });
-        
+
             const data = await res.json();
-        
+
             if (res.ok) {
-              alert("Logged in successfully");
-              const form = e.target
-              form.reset()
-              router.push("/dashboard")
+              localStorage.setItem("token", data.token); // Store token
+              router.push("/dashboard"); // Redirect
             } else {
-              alert(data.message); // Show error messages
+              alert(data.message);
             }
           } catch (err) {
             console.error("Error:", err);
