@@ -1,16 +1,26 @@
-import Footer from "@/components/Footer";
-import Image from "next/image";
+"use client"
 
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 export default function Home() {
+  const router = useRouter();
+  const handleClick =()=>{
+    const token = localStorage.getItem("token")
+    token ? router.push("/dashboard") : router.push('/login')
+  }
   return (
     <div className="w-[100vw] min-h-screen flex flex-col items-center justify-start">
+      <Navbar/>
       <div className="w-[100%] bg-[#F9FAFB]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-36">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 sm:text-6xl md:text-6xl">Manage Your Shop <span className="text-indigo-600">Smarter</span></h1>
             <p className="mt-3 max-w-md mx-auto font-medium text-medium text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">The complete solution for local shop vendors to manage inventory, track profits, and grow their business.</p>
             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center flex items-center justify-center md:mt-8">
-              <button className="cursor-pointer flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">Get Started<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right ml-2 h-5 w-5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>
+              <button onClick={handleClick} className="cursor-pointer flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">Get Started<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-right ml-2 h-5 w-5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>
             </div>
           </div>
         </div>
