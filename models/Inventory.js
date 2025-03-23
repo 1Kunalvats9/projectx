@@ -9,9 +9,11 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const InventorySchema = new mongoose.Schema({
-  products: [ProductSchema], // Array of product objects
+  products: [ProductSchema], // Array of products inside inventory
   createdAt: { type: Date, default: Date.now },
 });
 
-const Inventory = mongoose.models.Inventory || mongoose.model("Inventory", InventorySchema);
+// Ensure collection name is "inventory"
+const Inventory = mongoose.models.Inventory || mongoose.model("Inventory", InventorySchema, "inventory");
+
 export default Inventory;
