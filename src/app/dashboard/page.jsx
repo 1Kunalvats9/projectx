@@ -23,19 +23,19 @@ const Page = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/inventoryget"); // ✅ Ensure correct API path
+        const res = await fetch("api/inventoryget");
         if (!res.ok) throw new Error("Failed to fetch products");
-  
         const data = await res.json();
-        setProducts(data.data[0].products); // ✅ Correctly set state
+        setProducts(data.data); 
+        console.log(data)
       } catch (error) {
         console.error(error);
         alert("Error fetching details");
       }
     };
   
-    fetchProducts(); // Call the function
-  }, []); // ✅ Dependency array
+    fetchProducts(); 
+  }, []); 
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -88,7 +88,7 @@ const Page = () => {
         <div className="px-4 py-5 bg-white mt-6 rounded-xl sm:p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-medium text-gray-900">Product Management</h3>
-          <button onClick={()=>{router.push("/test")}} className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+          <button onClick={()=>{router.push("/addProducts")}} className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus h-5 w-5 mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path>
             </svg>Add Product</button></div>
           <div className="overflow-x-scroll">
@@ -103,18 +103,18 @@ const Page = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {products.map((item, index) => (
+                {products && products.map((item, index) => (
                   <tr key={index}>
                     <td className="px-6 py-4 whitespace-nowrap text-black">{item.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.category}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">${item.retailPrice}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">${item.wholesalePrice}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">₹{item.retailPrice}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">₹{item.wholesalePrice}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            {products.length === 0 && <p className="text-gray-500 mt-4">No products found.</p>}
+            {products && products.length === 0 && <p className="text-gray-500 mt-4">No products found.</p>}
           </div>
         </div>
       </div>
