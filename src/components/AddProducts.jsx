@@ -13,12 +13,12 @@ const AddProducts = () => {
     const handleClick = async () => {
         setError(""); // Reset previous errors
         setSuccess(""); // Reset success message
-
+        const email = localStorage.getItem("email")
         try {
             const res = await fetch("/api/inventoryput", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, category, quantity, retailPrice, wholesalePrice }),
+                body: JSON.stringify({ email, name, category, quantity, retailPrice, wholesalePrice }),
             });
 
             if (!res.ok) {

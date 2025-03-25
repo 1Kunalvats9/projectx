@@ -9,11 +9,10 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const InventorySchema = new mongoose.Schema({
-  products: [ProductSchema], // Array of products inside inventory
+  email: { type: String, required: true, unique: true }, 
+  products: [ProductSchema],
   createdAt: { type: Date, default: Date.now },
 });
-
-// Ensure collection name is "inventory"
 const Inventory = mongoose.models.Inventory || mongoose.model("Inventory", InventorySchema, "inventory");
 
 export default Inventory;

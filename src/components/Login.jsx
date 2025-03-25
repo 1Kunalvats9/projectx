@@ -24,6 +24,7 @@ const Login = () => {
 
             if (res.ok) {
               localStorage.setItem("token", data.token); // Store token
+              localStorage.setItem("email", email)
               router.push("/dashboard"); // Redirect
             } else {
               alert(data.message);
@@ -34,10 +35,10 @@ const Login = () => {
         }}>
           <input type="text" placeholder='Email' onChange={(e) => {
             setEmail(e.target.value)
-          }} />
+          }} className='outline-none w-full'/>
           <input type="password" placeholder='Password' onChange={(e) => {
             setPassword(e.target.value)
-          }} />
+          }} className='outline-none w-full' />
           <button className='bg-[#5046E5] text-white rounded-lg cursor-pointer font-bold px-6 py-2'>Login</button>
           <Link className='text-sm mt-3 text-right' href={"/register"}>Don't have an account ? <span className='underline'>Register</span></Link>
         </form>

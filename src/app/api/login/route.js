@@ -3,8 +3,10 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"; // Ensure passwords are encrypted
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "../../../../models/userModel";
+import dotenv from "dotenv"
+dotenv.config()
 
-const SECRET_KEY = "hulla_gulla"; // Use an environment variable in production
+const SECRET_KEY = process.env.JWT_SECRET_KEY
 
 export async function POST(req) {
   try {
@@ -16,13 +18,10 @@ export async function POST(req) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    // Compare entered password with stored hash
     const isMatch = password===user.password ? true:false;
     if (!isMatch) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
-
-    // Generate JWT Token
     const token = jwt.sign({ userId: user._id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
 
     return NextResponse.json({ message: "Login successful", token }, { status: 200 });

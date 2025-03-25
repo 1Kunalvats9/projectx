@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
-import Inventory from "../../../../models/Inventory";
 import { connectMongoDB } from "@/lib/mongodb";
+import Inventory from "../../../../models/Inventory";
 
 export async function POST(req) {
     try {
         await connectMongoDB();
-        const { name, category, quantity, retailPrice, wholesalePrice } = await req.json();
+        const { email, name, category, quantity, retailPrice, wholesalePrice } = await req.json();
 
-        // Find the inventory document (assuming only one exists)
-        let inventory = await Inventory.findOne();
+        // Find the inventory document specific to the user
+        let inventory = await Inventory.findOne({ email });
+
         if (!inventory) {
-            inventory = new Inventory({ products: [] }); // Create inventory if not found
+            inventory = new Inventory({ email, products: [] }); // Create inventory for user if not found
         }
 
         // Add product to the inventory
@@ -21,6 +22,7 @@ export async function POST(req) {
 
         console.log("✅ Product added successfully");
         return NextResponse.json({ message: "Product added successfully" }, { status: 201 });
+
     } catch (err) {
         console.error("❌ Error adding product:", err);
         return NextResponse.json({ error: err.message || "Internal Server Error" }, { status: 500 });
