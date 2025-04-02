@@ -20,8 +20,8 @@ const Navbar = () => {
       router.push("/login"); // Redirect to login page
     };
   return (
-    <nav className='w-[100vw] fixed top-0 h-[4rem] md:h-[5rem] bg-white shadow-sm flex justify-between items-center py-5 md:py-10 px-10 md:px-40'>
-      <div className='flex items-center gap-3'>
+    <nav className='w-[100vw] h-[4rem] md:h-[5rem] bg-white shadow-sm flex justify-between items-center py-3 md:py-6 px-4 md:px-40'>
+      <div className='flex items-center gap-3 cursor-pointer' onClick={()=>{router.push('/dashboard')}}>
         <StoreIcon />
         <h1 className='text-xl md:text-2xl font-bold'>ShopManager</h1>
       </div>

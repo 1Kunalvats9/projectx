@@ -13,15 +13,15 @@ const Register = () => {
         <form className='flex flex-col gap-3' onSubmit={async (e) => {
           e.preventDefault()
           try {
-            const res = await fetch("api/register", {
+            const res = await fetch("/api/register", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
                 email,
-                password,
-              }),
+                password
+              })
             });
 
             if (res.ok) {

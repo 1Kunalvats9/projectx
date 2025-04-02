@@ -5,8 +5,8 @@ import Inventory from "../../../../models/Inventory";
 export async function POST(req) {
     try {
         await connectMongoDB();
-        const { email, name, category, quantity, retailPrice, wholesalePrice } = await req.json();
-
+        const { email, name, category, quantity, retailPrice, wholesalePrice, url } = await req.json();
+        
         // Find the inventory document specific to the user
         let inventory = await Inventory.findOne({ email });
 
@@ -15,7 +15,7 @@ export async function POST(req) {
         }
 
         // Add product to the inventory
-        inventory.products.push({ name, category, quantity, retailPrice, wholesalePrice });
+        inventory.products.push({ name, category, quantity, retailPrice, wholesalePrice, url });
 
         // Save changes
         await inventory.save();

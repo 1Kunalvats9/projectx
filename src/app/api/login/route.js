@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs"; // Ensure passwords are encrypted
+import bcrypt from "bcryptjs"; 
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "../../../../models/userModel";
 import dotenv from "dotenv"
@@ -18,7 +18,7 @@ export async function POST(req) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    const isMatch = password===user.password ? true:false;
+    const isMatch = bcrypt.compare(password,user.password);
     if (!isMatch) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }

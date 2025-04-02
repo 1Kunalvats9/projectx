@@ -7,27 +7,35 @@ import Navbar from "@/components/Navbar";
 const Page = () => {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState([]);
-  const [email, setEmail] = useState(null); // ✅ Fix: Store email in state
+  const [email, setEmail] = useState(null); 
   const router = useRouter();
+  const [totalProducts, settotalProducts] = useState(0)
+  const [totalRevenue, settotalRevenue] = useState(0)
+  const [dailyCustomer, setdailyCustomer] = useState(0)
+  const [monthlySales, setmonthlySales] = useState(0)
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("")
+  const [isSearching, setisSearching] = useState(false)
+  const [searchFor, setsearchFor] = useState(" ")
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/login"); // Redirect to login if token is missing
+      router.push("/login"); 
     } else {
       setUser({ loggedIn: true });
     }
-  }, []);
-
-  useEffect(() => {
     const storedEmail = localStorage.getItem("email");
     if (storedEmail) {
-      setEmail(storedEmail); // ✅ Fix: Set email after hydration
+      setEmail(storedEmail); 
     }
+    
   }, []);
 
+  
+
   useEffect(() => {
-    if (!email) return; // ✅ Fix: Prevent API call when email is null
+    if (!email) return; 
 
     const fetchProducts = async () => {
       try {
@@ -43,15 +51,31 @@ const Page = () => {
         console.error("Error fetching products:", error);
       }
     };
-
+    const fetchInventoryData = async ()=>{
+      try{
+        let res = await fetch('/api/inventory-data',{
+          method:'POST',
+          body:JSON.stringify({email}),
+          headers: { "Content-Type": "application/json" }
+        })
+        if(!res.ok) alert("error in fetching data from inventory");
+        const inventoryData = await res.json()
+        settotalProducts(inventoryData.data.totalProducts)
+  
+      }catch(err){
+        console.log("error in inventorydata",err)
+        alert(err)
+      }
+    }
+    
+    fetchInventoryData();
     fetchProducts();
-  }, [email]); // ✅ Fix: Re-run when email is set
+  }, [email]); 
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
-
-      <div className="max-w-7xl mt-[4rem] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div className="bg-white rounded-lg shadow px-5 py-6">
             <div className="flex items-center">
@@ -63,7 +87,7 @@ const Page = () => {
                   <path d="M12 22V12"></path>
                 </svg>
               </div>
-              <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Total Products</dt><dd className="text-lg font-semibold text-gray-900">156</dd></dl>
+              <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Total Products</dt><dd className="text-lg font-semibold text-gray-900">{totalProducts}</dd></dl>
               </div>
             </div>
           </div>
@@ -72,7 +96,7 @@ const Page = () => {
               <div className="flex-shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-users h-6 w-6 text-green-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 </div>
-                <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Daily Customers</dt><dd className="text-lg font-semibold text-gray-900">28</dd></dl>
+                <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Daily Customers</dt><dd className="text-lg font-semibold text-gray-900">{dailyCustomer}</dd></dl>
               </div>
             </div>
           </div>
@@ -81,16 +105,16 @@ const Page = () => {
               <div className="flex-shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart3 h-6 w-6 text-blue-600"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
               </div>
-              <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Monthly Sales</dt><dd className="text-lg font-semibold text-gray-900">45,256</dd></dl>
+              <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Monthly Sales</dt><dd className="text-lg font-semibold text-gray-900">{monthlySales}</dd></dl>
               </div>
             </div>
           </div>
           <div className="bg-white rounded-lg shadow px-5 py-6">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-dollar-sign h-6 w-6 text-yellow-600"><line x1="12" x2="12" y1="2" y2="22"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" height="32" width="20" viewBox="0 0 320 512"><path fill="#CA8A03" d="M0 64C0 46.3 14.3 32 32 32l64 0 16 0 176 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-56.2 0c9.6 14.4 16.7 30.6 20.7 48l35.6 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-35.6 0c-13.2 58.3-61.9 103.2-122.2 110.9L274.6 422c14.4 10.3 17.7 30.3 7.4 44.6s-30.3 17.7-44.6 7.4L13.4 314C2.1 306-2.7 291.5 1.5 278.2S18.1 256 32 256l80 0c32.8 0 61-19.7 73.3-48L32 208c-17.7 0-32-14.3-32-32s14.3-32 32-32l153.3 0C173 115.7 144.8 96 112 96L96 96 32 96C14.3 96 0 81.7 0 64z"/></svg>
               </div>
-              <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Total Revenue</dt><dd className="text-lg font-semibold text-gray-900">12,342</dd></dl>
+              <div className="ml-5 w-0 flex-1"><dl><dt className="text-sm font-medium text-gray-500 truncate">Total Revenue</dt><dd className="text-lg font-semibold text-gray-900">{totalRevenue}</dd></dl>
               </div>
             </div>
           </div>
@@ -98,10 +122,28 @@ const Page = () => {
         <div className="px-4 py-5 bg-white mt-6 rounded-xl sm:p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-medium text-gray-900">Product Management</h3>
-          <button onClick={()=>{router.push("/addProducts")}} className="flex cursor-pointer items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus h-5 w-5 mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path>
-            </svg>Add Product</button></div>
+          <div className="flex items-center gap-4">
+            <button className="flex cursor-pointer items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" onClick={()=>{router.push("/sell")}}>
+              Sell
+            </button>
+            <button onClick={()=>{router.push("/addProducts")}} className="flex cursor-pointer items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-plus h-5 w-5 mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path>
+              </svg>Add Product</button>
+          </div>
+          </div>
           <div className="overflow-x-scroll">
+            <div className="w-full flex items-center justify-start flex-col">
+              <input onClick={()=>setisSearching(!isSearching)} type="text" placeholder="Search for products" className={`w-[99%] ${isSearching ? '':'rounded-b-lg'} px-3 py-1 rounded-t-lg outline-none border-2 border-gray-200 mx-3`} onChange={(e)=>{setsearchFor(e.target.value)}}/>
+              <div className={`w-[99%] border-2 flex-col border-gray-200 ${isSearching && searchFor.length!==0 ? "flex border-t-0":"hidden"} text-black rounded-b-lg`}>
+                {
+                  products
+                  .filter(ele => ele.name?.toLowerCase().startsWith(searchFor.toLowerCase()))
+                  .map((item, idx) => (
+                    <h1 className="text-lg px-3 py-1 hover:bg-gray-200 cursor-pointer" key={idx}>{item.name}</h1>
+                  ))
+                }
+              </div>
+            </div>
             <table className="min-w-full divide-y mt-6 divide-gray-200">
               <thead>
                 <tr>

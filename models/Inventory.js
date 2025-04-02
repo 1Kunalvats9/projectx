@@ -6,6 +6,7 @@ const ProductSchema = new mongoose.Schema({
   quantity: { type: Number, required: true },
   retailPrice: { type: Number, required: true },
   wholesalePrice: { type: Number, required: true },
+  url:{type:String, required:false}
 });
 
 const InventorySchema = new mongoose.Schema({
