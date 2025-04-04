@@ -7,6 +7,8 @@ const page = () => {
     const [isSearching, setisSearching] = useState(false)
     const [searchFor, setsearchFor] = useState("")
     const [products, setProducts] = useState([])
+    const [amount, setamount] = useState(0)
+    
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -64,7 +66,7 @@ const page = () => {
                                                 <h1><span className='font-semibold'>Quantity: </span>{item.quantity}</h1>
                                                 <h1><span className='font-semibold'>Price: </span>₹{item.retailPrice}</h1>
                                                 <div className=' flex gap-3 items-center'>
-                                                    <input type="number" placeholder='Amount' className='border-2 w-24 border-gray-100 rounded-md px-2 py-1' />
+                                                    <input type="number" placeholder='Amount' className='border-2 w-24 border-gray-100 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none rounded-md px-2 py-1' />
                                                     <button className='bg-green-500 hover:bg-green-600 rounded-md cursor-pointer px-2 py-1 text-white'>Add to Cart</button>
                                                 </div>
                                             </div>

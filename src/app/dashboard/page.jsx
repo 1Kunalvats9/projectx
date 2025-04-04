@@ -47,6 +47,7 @@ const Page = () => {
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data.data);
+        console.log(data.data)
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -157,7 +158,7 @@ const Page = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {products && products.map((item, index) => (
                   <tr key={index}>
-                    <td className="px-6 py-4 whitespace-nowrap text-black">{item.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap flex justify-start items-center gap-5 text-black"><img src={item.url} className="w-8" alt={item.name} /> {item.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.category}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
                     <td className="px-6 py-4 whitespace-nowrap">₹{item.retailPrice}</td>
