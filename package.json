@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "firebase": "^11.5.0",
+    "framer-motion": "^12.6.3",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.483.0",
     "mongodb": "^6.15.0",
@@ -28,8 +29,11 @@
     "next-cloudinary": "^6.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
+    "react-qr-barcode-scanner": "^2.0.0",
     "tailwind-merge": "^3.0.2",
-    "tw-animate-css": "^1.2.4"
+    "tw-animate-css": "^1.2.4",
+    "twilio": "^5.5.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
