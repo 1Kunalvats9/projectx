@@ -7,14 +7,11 @@ export async function POST(req) {
         await connectMongoDB();
         const { email, name, category, quantity, retailPrice, wholesalePrice, url } = await req.json();
         
-        // Find the inventory document specific to the user
         let inventory = await Inventory.findOne({ email });
 
         if (!inventory) {
             inventory = new Inventory({ email, products: [] }); // Create inventory for user if not found
         }
-
-        // Add product to the inventory
         inventory.products.push({ name, category, quantity, retailPrice, wholesalePrice, url });
 
         // Save changes

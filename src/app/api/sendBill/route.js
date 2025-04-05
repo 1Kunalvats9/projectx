@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import twilio from "twilio";
 
 const client = twilio(
-    'ACbaa294dac75c66cdf41487ab17c0b6b3',
-    'e118a794815e681c8c0a7c985c573e84'
+    process.env.TWILIO_ACCOUNT_SID,
+    process.env.TWILIO_AUTH_TOKEN
 );
 
 export async function POST(req) {
@@ -12,7 +12,7 @@ export async function POST(req) {
 
     const message = await client.messages.create({
       body: `🧾 Bill from ShopManager:\n${billDetails}`,
-      from: '+19207988626',
+      from: process.env.TWILIO_PHONE_NUMBER,
       to: `+91${phoneNumber}`, // E.164 format, e.g. +91XXXXXXXXXX
     });
 
