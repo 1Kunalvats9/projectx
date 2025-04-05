@@ -4,7 +4,8 @@ import bcrypt from "bcryptjs";
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "../../../../models/userModel";
 
-const SECRET_KEY = "kunatanishaur"
+
+const SECRET_KEY = process.env.JWT_SECRET_KEY
 
 export async function POST(req) {
   try {
