@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv"
 dotenv.config()
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = 'mongodb+srv://1kunalvats9:m8MAWhXg9bEAeJlz@projectx.7vvnb.mongodb.net/?retryWrites=true&w=majority&appName=projectx';
 
 export const connectMongoDB = async () => {
     if (mongoose.connection.readyState >= 1) {
