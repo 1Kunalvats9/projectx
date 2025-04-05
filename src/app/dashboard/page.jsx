@@ -121,7 +121,7 @@ const Page = () => {
     <div className="min-h-screen bg-gray-100">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
-      <BackButton class="fixed md:top-28 md:left-4 top-18 left-6" />
+      <BackButton class="fixed md:top-26 md:left-4 top-18 left-6" />
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 mt-8 md:mt-0 lg:grid-cols-4">
           <div className="bg-white rounded-lg shadow px-5 py-6">
             <div className="flex items-center">
