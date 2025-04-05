@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import User from "../../../../models/userModel";
 
 export async function POST(req) {
-  console.log("/api/getUser hit");
   try {
     await connectMongoDB();
     console.log("Connected to MongoDB");

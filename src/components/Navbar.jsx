@@ -7,40 +7,12 @@ import toast from 'react-hot-toast'
 const Navbar = () => {
     const router = useRouter()
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [name, setName] = useState("")
+    const [name, setName] = useState("Hello")
 
     useEffect(() => {
       const token = localStorage.getItem("token");
       const email = localStorage.getItem("email")
       setIsLoggedIn(!!token); 
-      const fetchData = async () => {
-        const token = localStorage.getItem("token");
-        const email = localStorage.getItem("email");
-        setIsLoggedIn(!!token);
-    
-        try {
-          const res = await fetch('/api/getUser', {
-            method: 'POST',
-            body: JSON.stringify({ email }),
-            headers: { "Content-Type": "application/json" }
-          });
-    
-          if (!res.ok) {
-            setName("Welcome");
-            return;
-          }
-    
-          const data = await res.json();
-          console.log(data)
-          setName(data.data.shopName || "User"); 
-    
-        } catch (error) {
-          console.error("Failed to fetch user:", error);
-          setName("Welcome");
-        }
-      };
-    
-      fetchData();
     
     }, [isLoggedIn]);
 
@@ -67,3 +39,34 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+
+// const fetchData = async () => {
+//   const token = localStorage.getItem("token");
+//   const email = localStorage.getItem("email");
+//   setIsLoggedIn(!!token);
+
+//   try {
+//     const res = await fetch('/api/getUser', {
+//       method: 'POST',
+//       body: JSON.stringify({ email }),
+//       headers: { "Content-Type": "application/json" }
+//     });
+
+//     if (!res.ok) {
+//       setName("Welcome");
+//       return;
+//     }
+
+//     const data = await res.json();
+//     console.log(data)
+//     setName(data.data.shopName || "User"); 
+
+//   } catch (error) {
+//     console.error("Failed to fetch user:", error);
+//     setName("Welcome");
+//   }
+// };
+
+// fetchData();
