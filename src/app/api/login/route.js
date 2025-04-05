@@ -3,8 +3,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"; 
 import { connectMongoDB } from "@/lib/mongodb";
 import User from "../../../../models/userModel";
-import dotenv from "dotenv"
-dotenv.config()
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY
 
