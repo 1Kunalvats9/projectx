@@ -1,7 +1,6 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
-import Inventory from "@/models/Inventory";
-import User from "@/models/userModel";
+import User from "../../../../models/userModel";
 
 export async function POST(req) {
   console.log("/api/getUser hit");
